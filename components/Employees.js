@@ -35,9 +35,7 @@ export default class Employees extends Component{
         displayName
       })
       const {trelloApiKey, trelloTokenKey} = data;
-      // const uri = trelloConfigurations.TRELLO_SERVER_URL+this.state.orgId+'/members?filter=normal&fields=fullName%2Cusername&key='+trelloApiKey+'&token='+trelloTokenKey;
       const uri = `${trelloConfigurations.TRELLO_SERVER_URL}${'organizations'}${'/'}${orgId}${'/'}${'members'}${'?filter=normal&fields=fullName%2Cusername'}${'&key='}${trelloApiKey}${'&token='}${trelloTokenKey}`
-      alert(uri)
       axios.get(uri).then((result) => {
         for (var i = 0; i < result.data.length; i++) {
           employees = this.state.employees

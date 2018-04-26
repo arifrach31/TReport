@@ -17,7 +17,7 @@ export default class Individual extends Component{
   // Fetch all data to show
   fetchAll(data, orgId){
     const {trelloApiKey, trelloTokenKey} = data;
-    const uri = `${trelloConfigurations.TRELLO_SERVER_URL}${'organizations'}${'/'}${orgId}${'/'}${'members'}${'/'}${'normal?key='}${'d165dbe9aca376e0a7c43ff550d3c203'}${'&token='}${'38d947dcfec87883f36dc6b182722930a1dbe72fc3a5671a7c34835e3b464b61'}`
+    const uri = `${trelloConfigurations.TRELLO_SERVER_URL}${'organizations'}${'/'}${orgId}${'/'}${'members'}${'/'}${'normal?key='}${trelloApiKey}${'&token='}${trelloTokenKey}`
     axios.get(uri).then((result) => {
       this.setState({
         employees:result.data

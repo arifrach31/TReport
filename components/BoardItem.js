@@ -13,7 +13,7 @@ export default class TrelloBoards extends Component{
 
   fetchAll(data, orgId){
     const {trelloApiKey, trelloTokenKey} = data;
-    const uri = `${trelloConfigurations.TRELLO_SERVER_URL}${'organizations'}${'/'}${orgId}${'/'}${'boards'}${'&key='}${trelloApiKey}${'&token='}${trelloTokenKey}`
+    const uri = `${trelloConfigurations.TRELLO_SERVER_URL}${'organizations'}${'/'}${orgId}${'/'}${'boards?filter=all&fields=all'}${'&key='}${trelloApiKey}${'&token='}${trelloTokenKey}`
     axios.get(uri).then((result) => {
       this.setState({
         boards: result.data

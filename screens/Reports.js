@@ -21,8 +21,10 @@ export default class Home extends Component{
     
     render(){
         return(
-            <Container>                
-                <BoardItem navigation={this.props.navigation}/>
+            <Container>       
+                <Content>
+                    <BoardItem navigation={this.props.navigation}/>
+                </Content>
                 <Footer>
                     <FooterTab style={styles.footerTabsColor}>
                         <Button vertical onPress={() => this.props.navigation.navigate('Dashboard')}>
