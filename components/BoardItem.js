@@ -1,56 +1,62 @@
-import React, { Component } from 'react';
-import {StyleSheet} from 'react-native';
-import {
-	Card,
-	CardItem,
-	Button,
-	Text
-} from 'native-base';
+import React, {Component} from 'react';
+import {List, ListItem, Text, Button, CardItem, Card} from 'native-base';
+import {ImageBackground, TouchableOpacity,AsyncStorage} from 'react-native'
+import {trelloConfigurations, backendlessConfigurations} from '../config';
+import axios from 'axios';
 
-export default class Report extends Component{
+export default class TrelloBoards extends Component{
 
-	boards = [
-		{
-			id: 1,
-			title: 'Treport'
-		},
-		{
-			id: 2,
-			title: 'Asisten Lapak'
-		},
-		{
-			id: 3,
-			title: 'DW-Bootcamp 2'
-		}
-	]
-	
-	render(){
-		return(
-			<Card style={styles.card}>
-				{this.boards.map((board)=> (
-					<CardItem key={board.id} style={styles.boardItem} >
-						<Button transparent onPress={()=> this.props.navigation.navigate('ReportDetail')}>
-							<Text>
-								{board.title}
-							</Text>
-						</Button>
-					</CardItem>
-				))}
-			</Card>
-		);
-	}
+  state = {
+    boards:[]
+  }
+
+
+  fetchAll(data, orgId){
+    const {trelloApiKey, trelloTokenKey} = data;
+    const uri = `${trelloConfigurations.TRELLO_SERVER_URL}${'organizations'}${'/'}${orgId}${'/'}${'boards'}${'&key='}${trelloApiKey}${'&token='}${trelloTokenKey}`
+    axios.get(uri).then((result) => {
+      this.setState({
+        boards: result.data
+      })
+    })
+  }
+  // Fetch admin credential like trelloApiKey telloaTokenKey and orga
+  // which will used to fetch response JSON from trello API
+  fetchAdminCredentials(){
+    AsyncStorage.multiGet(['userToken', 'objectID', 'orgId'], (error, result) => {
+      if(result){
+        const uri = `${backendlessConfigurations.USERS}${'/'}${result[1][1]}`
+        axios.get(uri).then((res) => {
+          this.fetchAll(res.data, result[2][1]);
+        })
+      }
+    })
+  }
+
+  componentWillMount(){
+    this.fetchAdminCredentials()
+  }
+
+  render(){
+    return(
+      <List>
+        {this.state.boards.map((board) => (
+          <TouchableOpacity key={board.id} onPress={()=>alert('You choose '+ board.name)}>
+            <Card>
+              <CardItem cardBody>
+                {board.prefs.backgroundImage !== null?
+                (<ImageBackground source={{uri: board.prefs.backgroundImage}} style={{height: 100, width: null, flex: 1}}>
+                  <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 20}}>{board.name}</Text>
+                </ImageBackground>)
+                :
+                (<ImageBackground style={{height: 100, width: null, flex: 1, backgroundColor: board.prefs.backgroundTopColor}}>
+                  <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 20}}>{board.name}</Text>
+                </ImageBackground>)}
+              </CardItem>
+            </Card>
+          </TouchableOpacity>
+        ))}
+      </List>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-	card: {
-		padding: 30,
-		marginTop: 20,
-	},
-	boardItem: {
-		paddingTop: 30,
-		paddingBottom: 30,
-		borderColor: 'black',
-		borderWidth: 1,
-		marginBottom: 20
-	  }
-});
