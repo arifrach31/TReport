@@ -10,8 +10,8 @@ export default class Individual extends Component{
   state = {
     employees:[],
     objectId:'',
-    tp: 30,
-    td: 20
+    tp: 20,
+    td: 30
   }
 
   // Fetch all data to show
