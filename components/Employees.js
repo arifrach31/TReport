@@ -99,7 +99,7 @@ export default class Employees extends Component{
           <CardItem>
             <Body style={styles.container}>
               <Text style={styles.employeesPerfomance}>Employees Perfomance</Text>
-              <Text style={styles.companyName}>{this.state.displayName} aSDA  -  {moment().format('LL')}</Text>
+              <Text style={styles.companyName}>{this.state.displayName}  -  {moment().format('LL')}</Text>
             </Body>
           </CardItem>
           <CardItem cardBody>
