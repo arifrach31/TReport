@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {List, ListItem, Text, Button, CardItem, Card} from 'native-base';
-import {ImageBackground, TouchableOpacity,AsyncStorage} from 'react-native'
+import {ImageBackground, TouchableOpacity,AsyncStorage, StyleSheet} from 'react-native'
 import {trelloConfigurations, backendlessConfigurations} from '../config';
 import axios from 'axios';
 
