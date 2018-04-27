@@ -11,6 +11,7 @@ import ReportDetail from './screens/ReportDetail';
 import AddReport from './screens/AddReport'
 import Settings from './screens/Settings'
 import Organization from './screens/Organization'
+import EditReport from './screens/EditReport'
 
 const Styles = StyleSheet.create({
     headerTitle:{
@@ -69,6 +70,9 @@ const App = StackNavigator({
   Settings: {
     screen: Settings,
   },
+  RouteFetchTrelloEditReport: {
+    screen: EditReport,
+  },
   Organization: {
     screen: Organization,
     navigationOptions:{
@@ -84,7 +88,7 @@ const App = StackNavigator({
     }
   },
 }, {
-  initialRouteName: 'Register',
+  initialRouteName: 'ReportDetail',
 })
 
 export default App;

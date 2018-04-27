@@ -7,7 +7,6 @@
     "test": "jest"
   },
   "dependencies": {
-<<<<<<< HEAD
     "axios": "^0.18.0",
     "moment": "^2.22.1",
     "native-base": "^2.4.2",
@@ -15,10 +14,6 @@
     "react-native": "0.55.3",
     "react-native-chartjs": "^1.0.2",
     "react-navigation": "^1.5.11"
-=======
-    "react": "16.3.1",
-    "react-native": "0.55.2"
->>>>>>> cc6177d2a01592029fc9c849252a81adbb2cbb7e
   },
   "devDependencies": {
     "babel-jest": "22.4.3",
@@ -29,8 +24,4 @@
   "jest": {
     "preset": "react-native"
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> cc6177d2a01592029fc9c849252a81adbb2cbb7e
