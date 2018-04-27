@@ -72,3 +72,19 @@ export default class TrelloBoards extends Component{
     );
   }
 }
+
+const styles = StyleSheet.create({
+  content: {
+    padding: 20
+  },
+  boardImageBackground: {
+    height: 100,
+    width: null,
+    flex: 1
+  },
+    boardFont: {
+    color: '#fff',
+    fontSize: 16,
+    marginLeft: 10
+  }
+})
