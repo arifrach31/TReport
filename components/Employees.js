@@ -29,13 +29,11 @@ export default class Employees extends Component{
     axios.get(backendlessUri).then((result) => {
       // Set employees data to this.employeesData
       this.setState({
-        employeesData: result.data
-      })
-      this.setState({
+        employeesData: result.data,
         displayName
       })
       const {trelloApiKey, trelloTokenKey} = data;
-      const uri = `${trelloConfigurations.TRELLO_SERVER_URL}${'organizations'}${'/'}${orgId}${'/'}${'members'}${'?filter=normal&fields=fullName%2Cusername'}${'&key='}${trelloApiKey}${'&token='}${trelloTokenKey}`
+      const uri = `${trelloConfigurations.TRELLO_SERVER_URL}${'organizations'}${'/'}${orgId}${'/'}${'members'}${'?filter=normal&fields=fullName%2Cusername'}${'&key='}${trelloApiKey}${'&token='}${trelloTokenKey}`;
       axios.get(uri).then((result) => {
         for (var i = 0; i < result.data.length; i++) {
           employees = this.state.employees
@@ -81,12 +79,12 @@ export default class Employees extends Component{
   // which will used to fetch response JSON from trello API
   fetchAdminCredentials(){
     AsyncStorage.multiGet(['objectID', 'orgId', 'displayName'], (error, result) => {
-      if(result){
-        const uri = backendlessConfigurations.USERS+result[0][1];
+      if(result !== null){
+        const uri = `${backendlessConfigurations.USERS}${'/'}${result[0][1]}`
         axios.get(uri).then((res) => {
           this.fetchAll(res.data, result[1][1], result[2][1]);
         })
-      }
+      } 
     })
   }
 
@@ -101,7 +99,7 @@ export default class Employees extends Component{
           <CardItem>
             <Body style={styles.container}>
               <Text style={styles.employeesPerfomance}>Employees Perfomance</Text>
-              <Text style={styles.companyName}>{this.state.displayName} - {moment().format('LL')}</Text>
+              <Text style={styles.companyName}>{this.state.displayName} aSDA  -  {moment().format('LL')}</Text>
             </Body>
           </CardItem>
           <CardItem cardBody>
