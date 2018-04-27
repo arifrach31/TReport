@@ -1,73 +1,89 @@
-import React, { Component } from 'react';
-import {View, StyleSheet,TouchableOpacity, AsyncStorage} from 'react-native';
-import {trelloConfigurations} from '../config';
-import axios from 'axios';
+import React, {Component} from 'react'
+import {View, StyleSheet,TouchableOpacity, AsyncStorage} from 'react-native'
+import {trelloConfigurations} from '../config'
 import {
-    Container,Header,Title,Content,
-    Left,Body,Right,Text,Form,Input,
-    Item,Button,Icon,Card,CardItem,Radio
-} from 'native-base';
+  Container, Content, List, 
+  ListItem, Text, Fab,
+  Item, Label, Input, 
+  Button, Icon, Card, 
+  CardItem, Body
+} from 'native-base'
+import axios from 'axios'
 
 export default class Organization extends Component{
 
-    state = {
-      organizations:[]
-    }
+  state = {
+    organizations: [],
+    displayName: ""
+  }
 
-    componentWillMount(){
-      const uri = `${trelloConfigurations.TRELLO_SERVER_URL}${'members'}${'/'}${'m_isawk'}${'/'}${'organizations?filter=all&fields=displayName'}${'&key='}${'d165dbe9aca376e0a7c43ff550d3c203'}${'&token='}${'38d947dcfec87883f36dc6b182722930a1dbe72fc3a5671a7c34835e3b464b61'}`
-      axios.get(uri).then((result) => {
-        this.setState({
-          organizations: result.data
-        })
+  allOrganizations(){
+    const uri = `${trelloConfigurations.TRELLO_SERVER_URL}${'members'}${'/'}${'azharrizkip'}${'/'}${'organizations?filter=all&fields=displayName'}${'&key='}${'0a5393e0cda60d506290ca411d6d7667'}${'&token='}${'4158254e3c7ed15bc4d72b1e40987413de392255e7815d0ae07a74afce8ddcb1'}`
+    axios.get(uri).then((result)=>{
+      this.setState({
+        organizations: result.data,
+        displayName: ""
       })
-    }
+    })
+  }
 
-    handleCreateOrganization(displayName){
-      const uri = `${'https://api.trello.com/1/organizations?displayName='}${displayName}`
-      axios.post(uri).then((result) => {
-        if(result){
-          alert("Organization successfully created")
-        }
-      })
-    }
+  handleSubmit(){
+    axios.post(`https://api.trello.com/1/organizations?displayName=displayName&key=0a5393e0cda60d506290ca411d6d7667&token=4158254e3c7ed15bc4d72b1e40987413de392255e7815d0ae07a74afce8ddcb1`, {displayName: this.state.displayName}).then(result=>{
+      if(result.data)
+        this.allOrganizations()
+    })
+  }
 
-    render(){
-        return(
-            <Container style={{backgroundColor: '#FFF'}}>
-                <Content style={styles.content}>
-                    <View>
-                        <Text style={styles.display}>Display Name</Text>
-                    </View>
-                    <Item regular style={styles.item1}>
-                        <Input placeholder='Input Your Organization Name'placeholderTextColor="#dfe6e9" />
-                    </Item>
-                    <Button block style={styles.button1} style={{backgroundColor: '#026aa7'}} onPress={this.handleCreateOrganization()}>
-                        <Text>Create New Organization</Text>
-                    </Button>
-                    <View style = {styles.lineStyleLeft} />
-                    <Text style={styles.or}>OR</Text>
-                    <View style = {styles.lineStyleRight} />
-                    <Text style={styles.choose}>Choose One</Text>
-                    <Card>
-                      {this.state.organizations.map((organization) => (
-                        <CardItem key={organization.id}>
-                          <TouchableOpacity onPress={()=>
+  componentDidMount(){
+    this.allOrganizations()
+  }
+
+  render(){
+    return (
+      <Container style={{backgroundColor: '#FFF'}}>
+        <Content style={styles.content}>     
+          <Content>
+            <View>
+              <Text style={styles.display}>Display Name</Text>
+            </View>
+
+            <Item regular style={styles.itemInputOrg}>
+                <Input placeholder='Input Your Organization Name'placeholderTextColor="#dfe6e9" 
+                  onChangeText={displayName=> this.setState({displayName})}
+                  value={this.state.displayName} />
+            </Item>
+
+            <Button block style={styles.buttonNewOrg} onPress={()=> this.handleSubmit()}>
+                <Text>Create New Organization</Text>
+            </Button>
+          </Content>
+          <Content>
+            <View style = {styles.lineStyleLeft} />
+               <Text style={styles.or}>OR</Text>
+            <View style = {styles.lineStyleRight} />
+
+              <Text style={styles.choose}>Choose One</Text>
+              <Card style={styles.card}>
+                 {this.state.organizations.map((organization)=>(
+                    <CardItem key={organization.id} button onPress={()=> this.props.navigation.navigate('Dashboard',{id: organization.id})}>
+                        <TouchableOpacity onPress={()=>
                               AsyncStorage.getItem('orgId').then( data => {
                                 AsyncStorage.setItem('orgId', organization.id)
                                 AsyncStorage.setItem('displayName', organization.displayName)
                                 this.props.navigation.navigate('Dashboard', {orgId: organization.id,displayName:organization.displayName})
                               })}>
                             <Text>{organization.displayName}</Text>
-                          </TouchableOpacity>
-                        </CardItem>
-                      ))}
-                    </Card>
-                </Content>
-            </Container>
-        )
-    }
+                        </TouchableOpacity>
+                    </CardItem>
+                 ))} 
+              </Card>
+          </Content>
+        </Content>
+      </Container>
+    )
+  }
 }
+
 const styles = StyleSheet.create({
     display: {
         color: '#777777',
@@ -75,13 +91,12 @@ const styles = StyleSheet.create({
     content: {
         padding: 20,
     },
-    item1: {
+    itemInputOrg: {
         marginTop: 15,
     },
-    button1: {
-        padding: 20,
+    buttonNewOrg: {
         marginTop: 20,
-        backgroundColor: '#74b9ff'
+        backgroundColor: '#026aa7'
     },
     or: {
         textAlign: 'center',
@@ -107,11 +122,5 @@ const styles = StyleSheet.create({
         borderColor:'black',
         margin: 10,
         width: 120,
-    },
-    activeMember: {
-        alignSelf: 'flex-end',
-    },
-    btnAdd: {
-        alignSelf: 'flex-end',
     }
 });

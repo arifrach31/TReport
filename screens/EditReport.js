@@ -16,7 +16,7 @@ const uri = 'https://api.backendless.com/954ED070-DAB6-29F9-FFC1-65B7C3AA0300/29
 export default class EditReport extends Component{
     
    state = {
-    report: {},
+    report: [],
     reportCards: [],
     cards: []
   }
@@ -46,24 +46,9 @@ export default class EditReport extends Component{
   }
 
     render(){
+        const { note } = this.state.report
         return(
         <Container>
-            <Header>
-                <Left>
-                    <Button transparent>
-                        <Icon name='arrow-back' />
-                    </Button>
-                </Left>
-                <Body>
-                    <Title>Edit Report</Title>
-                </Body>
-                <Right>
-                    <Button transparent onPress={() =>
-                        this.props.navigation.navigate('Reports')}>
-                        <Text>Save</Text>
-                    </Button>
-                </Right>
-            </Header>
             <Content style={styles.container}>
                 {this.state.reportCards.map((reportCard)=>(
                     <View key={reportCard.objectId}>
@@ -85,7 +70,7 @@ export default class EditReport extends Component{
                     </View>
                     <View style={styles.itemForm}>
                         <Label>Note</Label>
-                        <Textarea rowSpan={5} bordered style={styles.textareaForm}/>
+                        <Textarea value={note} rowSpan={5} bordered style={styles.textareaForm}/>
                     </View>
                 </Form>
             </Content>
