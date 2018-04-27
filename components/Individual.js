@@ -68,7 +68,7 @@ export default class Individual extends Component{
             <Body>
               <CardItem>
                 <Badge warning><Text style={{paddingTop:3}}>{this.state.tp}</Text></Badge>
-                <Text style={{color: '#636e72',paddingLeft: 10, fontSize:15}}>Target pending</Text>
+                <Text style={{color: '#636e72',paddingLeft: 10,fontSize:15}}>Target pending</Text>
               </CardItem>
               <CardItem>
                 <Badge success><Text style={{paddingTop:3}}>{this.state.td}</Text></Badge>

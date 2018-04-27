@@ -35,17 +35,6 @@ export default class Organization extends Component{
     render(){
         return(
             <Container style={{backgroundColor: '#FFF'}}>
-                <Header>
-                    <Left>
-                        <Button transparent onPress={()=> this.props.navigation.navigate('Settings')}>
-                            <Icon name='arrow-back' />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Edit Organization</Title>
-                    </Body>
-                    {/* <Right/> */}
-                </Header>
                 <Content style={styles.content}>
                     <View>
                         <Text style={styles.display}>Display Name</Text>

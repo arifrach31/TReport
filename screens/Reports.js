@@ -1,17 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { 
-    Container, 
-    Header, 
-    Content, 
-    Footer, 
-    FooterTab, 
-    Button, 
-    Icon, 
-    Text, 
-    Badge,
-    Tabs,
-    Tab,
+    Container, Header, Content, 
+    Footer, FooterTab, Button, 
+    Icon, Text, Badge, Tabs, Tab,
     TabHeading
 } from 'native-base';
 
