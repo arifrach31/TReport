@@ -28,7 +28,7 @@ export default class Login extends Component{
 
     componentDidMount(){
 
-        AsyncStorage.multiGet(['userToken', 'objectID'], (error, result) => {
+        AsyncStorage.multiGet(['userToken', 'objectID', 'email'], (error, result) => {
             if (result) {
 
                 if(result[0][1] !== null){
@@ -55,19 +55,18 @@ export default class Login extends Component{
          "password":pass
             } ).then(result => {
 
-                AsyncStorage.multiSet([['userToken', result.data['user-token']],['objectID', result.data.objectId]])
+                AsyncStorage.multiSet([['userToken', result.data['user-token']],['objectID', result.data.objectId],['email', email]])
 
-                axios.get(`${loginuri}/users/isvalidusertoken/${result.data['user-token']}`).then(result => {
-                    this.setState({
-                        loading: false
-                    })
-                    this.props.navigation.navigate('Organization')
-                    
+               
+                this.setState({
+                    loading: false
                 })
+
+                this.props.navigation.navigate('Organization')
+                    
 
             }).catch((e)=>{
                 alert(e.response.data.message)
-                this.setState({isLoggedIn: false})
                 this.setState({
                         loading: false
                     })
