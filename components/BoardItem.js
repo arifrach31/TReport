@@ -53,7 +53,7 @@ export default class TrelloBoards extends Component{
     return(
       <List>
         {this.state.boards.map((board) => (
-          <TouchableOpacity key={board.id} onPress={()=> this.props.navigation.navigate('RouteFetchTrelloRepDet',{id: board.id})}>
+          <TouchableOpacity key={board.id} onPress={()=> this.props.navigation.navigate('ReportDetail',{id: board.id})}>
             <Card>
               <CardItem cardBody>
                 {board.prefs.backgroundImage !== null?
