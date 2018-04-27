@@ -3,7 +3,7 @@ const backendlessConfigurations = {
     BACKENDLESS_SERVER : 'https://api.backendless.com/',
   
     // Rest Api Uri for store new user's email, password, trelloApiKey and trelloTokenKey
-    USERS : 'https://api.backendless.com/CCAA6E46-DD53-D1AD-FFEB-C86025D08A00/CE02CAAB-5E67-4063-FF0F-E77165DC0A00/data/Users'
+    USERS : 'https://api.backendless.com/954ED070-DAB6-29F9-FFC1-65B7C3AA0300/29456C43-95C4-0639-FFD1-D80284025400/data/Users'
   };
   
   const trelloConfigurations = {

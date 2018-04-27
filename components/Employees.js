@@ -82,7 +82,7 @@ export default class Employees extends Component{
   fetchAdminCredentials(){
     AsyncStorage.multiGet(['objectID', 'orgId', 'displayName'], (error, result) => {
       if(result){
-        const uri = 'https://api.backendless.com/CCAA6E46-DD53-D1AD-FFEB-C86025D08A00/CE02CAAB-5E67-4063-FF0F-E77165DC0A00/data/Users/'+result[0][1];
+        const uri = backendlessConfigurations.USERS+result[0][1];
         axios.get(uri).then((res) => {
           this.fetchAll(res.data, result[1][1], result[2][1]);
         })
