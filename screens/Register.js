@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet,Image, AsyncStorage } from 'react-native';
+import { backendlessConfigurations } from '../config'
 import axios from 'axios'
 import {
     Container,Content,Left,
@@ -52,18 +53,18 @@ export default class Register extends Component{
         }
     }
 
-    // componentDidMount(){
-    //   AsyncStorage.getItem('userToken', (error, result) => {
-    //     if(result){
-    //       this.props.navigation.navigate('Dashboard')
-    //     }
-    //   });
-    // }
+    componentDidMount(){
+      AsyncStorage.getItem('userToken', (error, result) => {
+        if(result){
+          this.props.navigation.navigate('Organization')
+        }
+      });
+    }
 
     // Register function
     register(){
       // Backendless api uri to store resgistration from user
-      const backendlessApi = 'https://api.backendless.com/CCAA6E46-DD53-D1AD-FFEB-C86025D08A00/CE02CAAB-5E67-4063-FF0F-E77165DC0A00/data/Users';
+      const backendlessApi = backendlessConfigurations.USERS;
       this.setState({isPressed : true})
       axios.post(backendlessApi,{"email" : this.state.Email, "password" : this.state.Password}).then((result) => {
         // If result data has data
@@ -143,25 +144,25 @@ export default class Register extends Component{
 
 const styles = StyleSheet.create({
     imageStyle:{
-        marginTop: 20,
-        flex: 1,
-        justifyContent: 'center',
-        alignSelf:'center',
-        backgroundColor:'transparent',
-        height: 150,
-        resizeMode: 'contain',
-        backgroundColor: '#ffffff'
+      marginTop: 20,
+      flex: 1,
+      justifyContent: 'center',
+      alignSelf:'center',
+      backgroundColor:'transparent',
+      height: 150,
+      resizeMode: 'contain',
+      backgroundColor: '#ffffff'
     },
     buttonStyle:{
-        marginTop: 15,
-        backgroundColor: '#026aa7'
+      marginTop: 15,
+      backgroundColor: '#026aa7'
     },
     logo: {
-        marginTop: 20,
-        flex: 1,
-        justifyContent: 'center',
-        alignSelf: 'center',
-        backgroundColor: '#ffffff'
+      marginTop: 20,
+      flex: 1,
+      justifyContent: 'center',
+      alignSelf: 'center',
+      backgroundColor: '#ffffff'
     },
     itemForm: {
         marginTop: 15,
