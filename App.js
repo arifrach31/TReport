@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, HeaderBackButton } from 'react-navigation';
 import { Button, Icon,View,Text } from 'native-base';
 import { TouchableOpacity,StyleSheet } from 'react-native'
 
@@ -23,6 +23,7 @@ const Styles = StyleSheet.create({
     },
     headerWrapper:{
       alignItems: 'center',
+      alignSelf: 'center', 
       flex: 1
     }
 });
@@ -63,6 +64,21 @@ const App = StackNavigator({
   },
   ReportDetail:{
     screen: ReportDetail,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTintColor: '#fff',
+        headerTitle:(
+          <View style={Styles.headerWrapper}>
+            <Text style={Styles.headerTitle}>Report Detail</Text>
+            <Text style={Styles.headerSubtitle}>Nama Report</Text>
+          </View>),
+        headerStyle: {
+          backgroundColor: '#026aa7'
+        },
+        headerLeft: (<TouchableOpacity onPress={()=> navigation.goBack('AddReport')}><Icon name="arrow-back" style={{color: 'white', marginLeft: 10}}/></TouchableOpacity>),
+        headerRight: (<TouchableOpacity onPress={()=> navigation.navigate('AddReport')}><Icon name="add" style={{color: 'white', marginRight: 10}}/></TouchableOpacity>),
+      }  
+    }
   },
   AddReport: {
     screen: AddReport,
