@@ -29,33 +29,83 @@ import {
     StyleSheet
 } from 'react-native'
 
-import CardTrello from '../components/CardTrello'
+import axios from 'axios'
+
+import {backendlessConfigurations, trelloConfigurations} from '../config/index';
+
+// Hardcode set idMember and idUser
+const idMember = 'azharrizkip'
+const idUser = '1F84DC29-1607-C88B-FFF8-4E7812127400'
 
 export default class AddReport extends Component{
-    organizations = [
-        {
-            id: 1,
-            title: 'Organization 1',
-            active: true
-        },
-        {
-            id: 4,
-            title: 'Organization 4',
-            active: true
-        }
-    ]
+
+    state = {
+        // Initial Local State
+        user: {},
+        organizations: [],
+        button: 'Save',
+        members: []
+    }
+
+    allSettings(){
+        // GET single data user from API Backendless
+        axios.get(`${backendlessConfigurations.BACKENDLESS_SERVER}/users/${idUser}`).then(result=>{
+          this.setState({
+            user: result.data,
+          })
+        })
+    }
+
+    getMember(){
+        // GET single data member from API Trello
+        axios.get(`${trelloConfigurations}/members/${idMember}`).then(result=>{
+            // set state members to return result.data
+            this.setState({
+                members: result.data,
+            })
+        })
+    }
+
+    componentDidMount(){
+        // GET method allSettings(), getMember()
+        this.allSettings()
+        this.getMember()
+
+        // GET data All organizations from API Trello
+        axios.get(`${trelloConfigurations.TRELLO_SERVER_URL}/members/${idMember}/organizations?filter=all&fields=displayName`).then(result=>{
+            // set state organizations to return result.data
+            this.setState({
+              organizations: result.data
+            })
+          })
+    }
+
+    updateSettings(){
+        // PUT data by id into API Trello
+        axios
+            .put(`${backendlessConfigurations.BACKENDLESS_SERVER}/users/${idUser}`, this.state.user)
+            .then(result=>{
+
+                // If success, get latest data from API
+                if(result.data){
+                    this.allSettings()
+                    alert('sukses')
+                }
+            })
+    }
+    
 
     render(){
         return(
             <Container style={{backgroundColor: '#FFF'}}>
-                <Header>
+                <Header style={{backgroundColor: '#026aa7'}}>
                     <Left/>
                     <Body>
-                        <Title>Settings</Title>
+                        <Title style={{color: '#fff'}}>Settings</Title>
                     </Body>
                     <Right>
-                        <Button transparent>
-                            <Text>Edit</Text>
+                        <Button transparent onPress={()=> this.updateSettings()}>
+                            <Text style={{color: '#fff'}}>{this.state.button}</Text>
                         </Button>
                     </Right>
                 </Header>
@@ -66,26 +116,40 @@ export default class AddReport extends Component{
                         </View>
                         <View style={styles.accountProfile}>
                             <Text style={styles.accountName}>Trello Report</Text>
-                            <Text style={styles.accountMail}>hello@trelloreport.com</Text>
+                            <Text style={styles.accountMail}>{this.state.members.email}</Text>
                         </View>
                     </View>
                     <Form>
                         <View style={styles.itemForm}>
                             <Label>Trello API Key</Label>
-                            <Input style={styles.inputForm}></Input>
+                            <Input 
+                                // disabled={this.state.edit? true:false}
+                                style={styles.inputForm}
+                                onChangeText={
+                                    trelloApiKey=> this.setState({ user: {...this.state.user, trelloApiKey} })
+                                }
+                                value={this.state.user.trelloApiKey}
+                            />
                         </View>
                         <View style={styles.itemForm}>
-                            <Label>Trello API Secret</Label>
-                            <Input style={styles.inputForm}></Input>
+                            <Label>Trello API Secret</Label>d
+                            <Input 
+                                // disabled={this.state.edit? true:false}
+                                style={styles.inputForm}
+                                onChangeText={
+                                    trelloTokenKey=> this.setState({ user: {...this.state.user, trelloTokenKey} })
+                                }
+                                value={this.state.user.trelloTokenKey}
+                            />
                         </View>
                         <View style={styles.itemForm}>
                             <Text style={styles.organizationName}>TrelloReport</Text>
                             <Label>Organization Member</Label>
                             <Card style={styles.card}>
-                                {this.organizations.map((organization)=>(
-                                    <CardItem key={organization.id} button onPress={() => this.props.navigation.navigate('Organization')}>
+                                {this.state.organizations.map((org)=> (
+                                    <CardItem key={org.id} button onPress={() => this.props.navigation.navigate('Organization')}>
                                         <Body>
-                                            <Text>{organization.title}</Text>
+                                            <Text>{org.displayName}</Text>
                                         </Body>
                                     </CardItem>
                                 ))}
